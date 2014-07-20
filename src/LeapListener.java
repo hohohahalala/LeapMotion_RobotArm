@@ -39,6 +39,14 @@ public class LeapListener extends Listener {
 			System.out.println(Math.toDegrees(normal.yaw()));
 			
 			CommPortSender.send(new ProtocolImpl().getMessage("H"));
+			
+			//減少資訊量以及切開訊息
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

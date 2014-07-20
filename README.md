@@ -1,2 +1,0 @@
-LeapMotion_RobotArm
-===================

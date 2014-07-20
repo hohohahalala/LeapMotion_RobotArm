@@ -1,7 +1,5 @@
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
-
-import java.util.Enumeration;
   
 public class ConnectRS232 {  
 	public void connect(String portName) throws Exception {    
@@ -20,7 +18,7 @@ public class ConnectRS232 {
             // setup serial port writer    
             CommPortSender.setWriterStream(serialPort.getOutputStream());    
                 
-            // setup serial port reader    
+            // setup serial port reader (thread)  
             new CommPortReceiver(serialPort.getInputStream()).start();    
         }    
     }     
