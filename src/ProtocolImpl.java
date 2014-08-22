@@ -1,3 +1,5 @@
+import java.io.UnsupportedEncodingException;
+
 public class ProtocolImpl implements Protocol{  
 	
     byte[] buffer = new byte[1024];    
@@ -31,7 +33,8 @@ public class ProtocolImpl implements Protocol{
         return message.getBytes();    
     }    
         
-    public String getMessage(byte[] buffer, int len) {    
-        return new String(buffer, 0, tail);    
+    public String getMessage(byte[] buffer, int len) {
+			return new String(buffer, 0, tail);
+
     }  
 }  

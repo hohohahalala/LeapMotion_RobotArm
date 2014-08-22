@@ -1,37 +1,52 @@
-int incomingByte = 0;	// 用來儲存收進來的 data byte
+#include<Servo.h>
 
+int incomingByte = 0;	// 用來儲存收進來的 data byte
+Servo Bottom;
 
 void setup() {
-  // 開啟 Serial port, 通訊速率為 9600 bps
+  // 開啟Serial port,通訊速率為9600bps
   Serial.begin(9600);
   Serial.println("Hello Arduino");
-  pinMode(13, OUTPUT);
-  digitalWrite(13, LOW);
+  Bottom.attach(13);
 }
 
 void loop() {
-  // 檢查是否有資料可供讀取
-  if (Serial.available() > 0) {
-    // 讀取進來的 byte
-    //incomingByte = Serial.read();
-    
-    char buffer[1];
-    Serial.readBytes(buffer,1);
-    int tmp = buffer[0];
-    Serial.print(tmp);
-    if(tmp == 72)
-    {
-      digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
-      delay(10);               // wait for a second
-      digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
-      delay(10);
-    }
-    
-    // 印出收到的資料
-    //Serial.print("data received: ");
-    //Serial.print(incomingByte, DEC);
-    //Serial.print(", ");
-    //Serial.print(incomingByte, HEX);
-    //Serial.println(" (HEX)");
+}
+
+void serialEvent(){
+  char buffer[7] = {};
+  char pin[2] = {};
+  char angle[6] = {};
+  
+  Serial.readBytes(buffer,6);
+  strcpy(pin,buffer);
+  strcpy(angle,buffer);  
+  angle[0] = ' '; 
+  angle[1] = ' ';
+  angle[2] = ' ';
+  
+  int angle_int;
+  angle_int = atoi(angle);
+  Serial.print(angle_int);
+
+  if(atoi(pin) == 13) {
+    Bottom.write(angle_int);
   }
+  
+   if(atoi(pin) == 12) {
+  }
+  
+   if(atoi(pin) == 11) {
+  }
+  
+   if(atoi(pin) == 10) {
+  }
+  
+   if(atoi(pin) == 9) {
+  }
+  
+   if(atoi(pin) == 8) {
+  }
+  
+  Serial.flush();  
 }

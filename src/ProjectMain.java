@@ -2,7 +2,6 @@ import java.io.IOException;
 
 import com.leapmotion.leap.Controller;
 
-
 public class ProjectMain {
 	public static void main(String[] args) throws Exception {
 
@@ -20,12 +19,10 @@ public class ProjectMain {
         // Keep this process running until Enter is pressed
         System.out.println("Press Enter to quit...");
         
-        try
-        {
+        try {
             System.in.read();
         } 
-        catch (IOException e) 
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
 
