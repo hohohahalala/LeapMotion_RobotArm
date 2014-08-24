@@ -25,6 +25,7 @@ void serialEvent(){
   angle[1] = ' ';
   angle[2] = ' ';
   
+  
   int angle_int;
   angle_int = atoi(angle);
   Serial.print(angle_int);
