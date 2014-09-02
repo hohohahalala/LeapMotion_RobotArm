@@ -1,19 +1,55 @@
 
 public class Servo {
-	public String pin_str;;
+	public String pin_str;
 	
 	public Servo(String pin) {
 		pin_str =pin;
 	}
 	
-	public String BottomServo(float x_axis) {
+	public void BottomServo(float x_axis) {
 		int radius = 160;
 		int angle = (int)Math.toDegrees(Math.acos(x_axis/radius));
 		System.out.println("angle: " + angle);
-		return setMsg(angle);
+		setMsg(angle);
 	}
 	
-	public String setMsg(int angle) {
+	public void ArmSystemServo_1(float y_orig, float z_orig) {
+		int y_axis = (int) ((y_orig-40)/340*100);
+		int z_axis = z_orig > 0 ?
+				(int) (Math.abs(z_orig-170)/340*100) : (int) ((Math.abs(z_orig)+170)/340*100);
+		int beveledge = (int) Math.sqrt(Math.pow(z_axis,2) + Math.pow(y_axis,2));
+//		System.out.println("z,y,beveledge " +z_axis+" "+y_axis+" "+ beveledge);
+		
+		if(beveledge>=50 && beveledge<=100) {
+			float Cos_Arm1 = (float)(Math.pow(50,2) + Math.pow(beveledge,2) - Math.pow(50,2)) / (float)(2*50*beveledge);
+			float Cos_Bottom = (float)(Math.pow(z_axis,2) + Math.pow(beveledge,2) - Math.pow(y_axis,2)) / (float)(2*beveledge*z_axis);
+//			System.out.println("Cos_Arm2,Cos_Arm1,Cos_Bottom " +Cos_Arm2+" "+Cos_Arm1+" "+ Cos_Bottom);
+			
+			int Bottom_angle = (int)Math.toDegrees(Math.acos(Cos_Bottom));
+			int Arm1_angle = Bottom_angle + (int)Math.toDegrees(Math.acos(Cos_Arm1));
+//			System.out.println("(int)Math.toDegrees(Math.acos(Cos_Arm2)) : " + (int)Math.toDegrees(Math.acos(Cos_Arm2)));
+//			System.out.println("Bottom_angle : " + Bottom_angle);
+			
+//			System.out.println("1角度 = " + Arm1_angle);
+//			System.out.println("2角度 = " + Arm2_angle);
+			setMsg(180-Arm1_angle);
+		}
+	}
+	
+	public void ArmSystemServo_2(float y_orig, float z_orig) {
+		int y_axis = (int) ((y_orig-40)/340*100);
+		int z_axis = z_orig > 0 ?
+				(int) (Math.abs(z_orig-170)/340*100) : (int) ((Math.abs(z_orig)+170)/340*100);
+		int beveledge = (int) Math.sqrt(Math.pow(z_axis,2) + Math.pow(y_axis,2));
+		
+		if(beveledge>=50) {
+			float Cos_Arm2 = (float)(Math.pow(50,2) + Math.pow(50,2) - Math.pow(beveledge,2)) / (float)(2*50*50);			
+			int Arm2_angle = (int)Math.toDegrees(Math.acos(Cos_Arm2)) - 90;
+			setMsg(Math.abs(Arm2_angle));
+		}
+	}
+	
+	public void setMsg(int angle) {
 		String tmp = Integer.toString(angle);
 		if(Integer.toString(angle).length() == 2)
 			tmp = "0" + Integer.toString(angle);
@@ -23,6 +59,6 @@ public class Servo {
 			pin_str = "0" + pin_str;
 			
 		tmp = pin_str + "," + tmp;
-		return tmp;
+		CommPortSender.send(new ProtocolImpl().getMessage(tmp));
 	}
 }
