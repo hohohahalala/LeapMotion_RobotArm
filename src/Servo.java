@@ -45,7 +45,7 @@ public class Servo {
 				(int) (Math.abs(z_orig-170)/340*100) : (int) ((Math.abs(z_orig)+170)/340*100);
 		int beveledge = (int) Math.sqrt(Math.pow(z_axis,2) + Math.pow(y_axis,2));
 		
-		if(beveledge>=50) {
+		if(beveledge>=50 && beveledge<=100) {
 			float Cos_Arm2 = (float)(Math.pow(50,2) + Math.pow(50,2) - Math.pow(beveledge,2)) / (float)(2*50*50);			
 			int Arm2_angle = (int)Math.toDegrees(Math.acos(Cos_Arm2)) - 90;
 			setMsg(Math.abs(Arm2_angle));

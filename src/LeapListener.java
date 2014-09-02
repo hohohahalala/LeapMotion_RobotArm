@@ -42,7 +42,7 @@ public class LeapListener extends Listener {
 			bottom_servo.BottomServo(hand.palmPosition().getX());
 			arm1_servo.ArmSystemServo_1(hand.palmPosition().getY(), hand.palmPosition().getZ());
 			arm2_servo.ArmSystemServo_2(hand.palmPosition().getY(), hand.palmPosition().getZ());
-			pinch_servo.setPincherDegree(hand.grabStrength());
+//			pinch_servo.setPincherDegree(hand.grabStrength());
 			wrist_left_right.setWristRotationDegree(hand.palmNormal());
 			wrist_front_rear.setWristDropDegree(hand.palmNormal());
 			
