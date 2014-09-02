@@ -5,12 +5,12 @@ import com.leapmotion.leap.Listener;
 import com.leapmotion.leap.Vector;
 
 public class LeapListener extends Listener {
-//	Servo bottom_servo = new Servo("13");
-	Servo arm1_servo = new Servo("13");
-	Servo arm2_servo = new Servo("12");
-//	Servo bottom_servo = new Servo("10");
-//	Servo bottom_servo = new Servo("9");
-//	Servo bottom_servo = new Servo("8");
+	Servo bottom_servo = new Servo("13");
+	Servo arm1_servo = new Servo("12");
+	Servo arm2_servo = new Servo("11");
+	Servo wrist_front_rear=new Servo("10");
+	Servo wrist_left_right=new Servo("9");
+	Servo pinch_servo = new Servo("8");
 
 	public void onInit(Controller controller) {
 		System.out.println("Initialized");
@@ -39,12 +39,12 @@ public class LeapListener extends Listener {
 			System.out.println("Z : " + hand.palmPosition().getZ());
 			System.out.println(Math.toDegrees(normal.yaw()));
 			
-//			if(hand.palmPosition().getX()<=160 && hand.palmPosition().getX()>=(-160)) {
-//				bottom_servo.BottomServo(hand.palmPosition().getX());
-//			}
-			
+			bottom_servo.BottomServo(hand.palmPosition().getX());
 			arm1_servo.ArmSystemServo_1(hand.palmPosition().getY(), hand.palmPosition().getZ());
 			arm2_servo.ArmSystemServo_2(hand.palmPosition().getY(), hand.palmPosition().getZ());
+			pinch_servo.setPincherDegree(hand.grabStrength());
+			wrist_left_right.setWristRotationDegree(hand.palmNormal());
+			wrist_front_rear.setWristDropDegree(hand.palmNormal());
 			
 			//減少資訊量
 			try {

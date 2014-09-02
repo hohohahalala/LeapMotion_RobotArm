@@ -1,3 +1,4 @@
+import com.leapmotion.leap.Vector;
 
 public class Servo {
 	public String pin_str;
@@ -7,10 +8,12 @@ public class Servo {
 	}
 	
 	public void BottomServo(float x_axis) {
-		int radius = 160;
-		int angle = (int)Math.toDegrees(Math.acos(x_axis/radius));
-		System.out.println("angle: " + angle);
-		setMsg(angle);
+		if(x_axis<=160 && x_axis>=(-160)) {
+			int radius = 160;
+			int angle = (int)Math.toDegrees(Math.acos(x_axis/radius));
+			System.out.println("angle: " + angle);
+			setMsg(angle);
+		}
 	}
 	
 	public void ArmSystemServo_1(float y_orig, float z_orig) {
@@ -47,6 +50,39 @@ public class Servo {
 			int Arm2_angle = (int)Math.toDegrees(Math.acos(Cos_Arm2)) - 90;
 			setMsg(Math.abs(Arm2_angle));
 		}
+	}
+	
+	public void setWristRotationDegree(Vector palmNormal) {
+		Vector v=palmNormal;
+		float left_right_degree=90;
+		float x=v.getX();
+		left_right_degree=90-90*x;
+		setMsg((int)left_right_degree);
+	}
+	
+	public void setWristDropDegree(Vector palmNormal) {
+		Vector v=palmNormal;
+		float front_rear_degree=90;
+		float z=v.getZ();
+		front_rear_degree=90+90*z;
+		setMsg((int)front_rear_degree);
+	}
+	
+	public void setPincherDegree(float grabStrength) {
+		float strength=grabStrength;		
+		float degree=120;
+		float minDegree=120,maxDegree=180;
+//		float marginMinRad=40,marginMaxRad=90;
+//
+//		use sphereRadius
+//		if(rad<marginMinRad)
+//			degree=(int)maxDegree;
+//		else if(rad>=marginMaxRad)
+//			degree=(int)minDegree;
+//		else
+//			degree=(int)(maxDegree-((rad-marginMinRad)/(marginMaxRad-marginMinRad)*(maxDegree-minDegree)));
+		degree=minDegree+strength*(maxDegree-minDegree);
+		setMsg((int)degree);
 	}
 	
 	public void setMsg(int angle) {
